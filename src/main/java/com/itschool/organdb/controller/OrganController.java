@@ -22,6 +22,7 @@ public class OrganController {
         this.OrganServiceAttribute = providedOrganService;
     }
 
+    @Operation(summary = "List details about a specific organ indicated by its ID", description = "Endpoint used to retrieve a specific organ entry from the database.")
     @GetMapping("{providedId}") //signal this method as the one to call in case of a GET request
     public OrganDTO getOrganDTO(@PathVariable long providedId)
     {
@@ -53,6 +54,7 @@ public class OrganController {
         return OrganServiceAttribute.updateOrganEntry(providedId, providedOrganDTO);
     }
 
+    @Operation(summary = "Delete a specific organ from the database", description = "Endpoint used to delete one specific entry from the database, indicated by the ID.")
     @DeleteMapping("{providedId}")
     public void deleteOrganEntry(@PathVariable long providedId)
     {
