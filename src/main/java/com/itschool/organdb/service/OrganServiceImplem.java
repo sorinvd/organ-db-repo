@@ -10,17 +10,16 @@ import java.util.List;
 @Service
 public class OrganServiceImplem implements OrganService{
 
-    private final OrganRepository OrganRepositoryAttribute;
+    private final OrganRepository organRepositoryAttribute;
 
     public OrganServiceImplem(OrganRepository providedOrganRepository) {
-        this.OrganRepositoryAttribute = providedOrganRepository;
+        this.organRepositoryAttribute = providedOrganRepository;
     }
 
-// FOR IMPLEMENTATION OF THESE METHODS CHECK COURSE NOTES -- search for "TBD"
 
     @Override
     public OrganDTO getOrganEntry(long providedId) {
-        OrganEntry extractedOrganEntry = OrganRepositoryAttribute.findById(providedId) //method implemented by Hibernate -- through the classes extended by our OrganRepository
+        OrganEntry extractedOrganEntry = organRepositoryAttribute.findById(providedId) //method implemented by Hibernate -- through the classes extended by our OrganRepository
                 .orElseThrow(); /*if Id not found --> throw exception: */
 
         //up to here, we have a result of type OrganEntry -- we need to convert to OrganDTO:
@@ -37,7 +36,7 @@ public class OrganServiceImplem implements OrganService{
     @Override
     public List<OrganDTO> getAllOrganEntries() {
 
-        List<OrganEntry> organEntryList = OrganRepositoryAttribute.findAll();
+        List<OrganEntry> organEntryList = organRepositoryAttribute.findAll();
 
         //converting list of OrganEntry entries to OrganEntry DTOs:
         //this time, from a list of certain type of objects to a list of another type of objects:
@@ -59,7 +58,7 @@ public class OrganServiceImplem implements OrganService{
                 providedUserDTO.geoLocation(), providedUserDTO.manufYear(), 0,0); //--> the OrganDTO does NOT have nr of registers and nr of manuals attributes
 
         //now the "save" method of the Repository class can be called:
-        OrganEntry returnedCreatedOrganEntry = OrganRepositoryAttribute.save(localOrganEntry);
+        OrganEntry returnedCreatedOrganEntry = organRepositoryAttribute.save(localOrganEntry);
         //now it will have also an ID (created by the DB)
 
         //convert back to OrganDTO:
@@ -83,7 +82,7 @@ public class OrganServiceImplem implements OrganService{
 
         localOrganEntry.setEntry_id(providedId); //to ensure overwriting an existing ID with the following call of "save" method
 
-        OrganEntry updatedOrganEntry = OrganRepositoryAttribute.save(localOrganEntry);
+        OrganEntry updatedOrganEntry = organRepositoryAttribute.save(localOrganEntry);
 
         OrganDTO UpdatedOrganDTO = new OrganDTO(updatedOrganEntry.getEntry_id(),
                 updatedOrganEntry.getManufacturer(),
@@ -95,6 +94,6 @@ public class OrganServiceImplem implements OrganService{
 
     @Override
     public void deleteOrganEntry(long providedId) {
-        OrganRepositoryAttribute.deleteById(providedId);
+        organRepositoryAttribute.deleteById(providedId);
     }
 }
